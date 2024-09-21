@@ -36,21 +36,27 @@ def insert():
         name = request.form['name']
         image = request.files['image']
         video = request.files['video']
+
+        # Ensure directories exist
+        upload_dir = 'static/uploads/'
+        video_upload_dir = 'static/video_uploads/'
+        os.makedirs(upload_dir, exist_ok=True)
+        os.makedirs(video_upload_dir, exist_ok=True)
         
         # Save the image to the uploads folder
         image_filename = f"{rollno}_{image.filename}"
-        image_path = os.path.join('static/uploads/', image_filename)
+        image_path = os.path.join(upload_dir, image_filename)
         image.save(image_path)
 
         # Save the video to the video_uploads folder
         video_filename = f"{rollno}_{video.filename}"
-        video_path = os.path.join('static/video_uploads/', video_filename)
+        video_path = os.path.join(video_upload_dir, video_filename)
         video.save(video_path)
         
-        # Store the relative path in the database
+        # Store the relative paths in the database
         try:
             with mysql.connection.cursor() as cursor:
-                cursor.execute("INSERT INTO student VALUES (%s, %s, %s, %s)", (name, rollno, f"/static/uploads/{image_filename}", f"/static/video_uploads/{video_filename}"))
+                cursor.execute("INSERT INTO student VALUES (%s, %s, %s, %s)", (name, rollno, f"/static/uploads/{image_filename}", f"/static/video_uploads/{video_filename}"))                
                 mysql.connection.commit()  # Commit the transaction
                 print('Data successfully inserted')
         except Exception as e:
