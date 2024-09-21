@@ -1,0 +1,23 @@
+# Python virtual environment
+venv/
+
+# Static uploads and video uploads directories
+static/uploads/
+static/video_uploads/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# IDE and editor files
+*.idea/
+*.vscode/
+*.swp
+*.swo
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Environment variables file (if applicable)
+.env
